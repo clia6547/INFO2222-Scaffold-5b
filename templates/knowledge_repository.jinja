@@ -1,0 +1,80 @@
+<!-- templates/knowledge_repository.jinja -->
+{% extends "base.jinja" %}
+
+{% block content %}
+<header>
+    <h1>Knowledge Repository</h1>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#articles">Articles</a></li>
+            <li><a href="#comments">Comments</a></li>
+            <li><a href="#admin">Admin</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="home">
+        <h2>Welcome to the Knowledge Repository</h2>
+        <p>Staff and students can share and modify articles, comment on articles, and more.</p>
+    </section>
+
+    <section id="articles">
+        <h2>Articles</h2>
+        <div id="article-list">
+            <!-- Articles will be dynamically loaded here -->
+        </div>
+        <button id="new-article-btn">New Article</button>
+    </section>
+
+    <section id="comments">
+        <h2>Comments</h2>
+        <div id="comment-list">
+            <!-- Comments will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <section id="admin">
+        <h2>Admin Panel</h2>
+        <div id="user-list">
+            <!-- User list will be dynamically loaded here -->
+        </div>
+        <button id="mute-user-btn">Mute/Unmute User</button>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Group CC01-4</p>
+</footer>
+
+<!-- Templates for dynamic content -->
+<template id="article-template">
+    <article>
+        <h3 class="article-title"></h3>
+        <p class="article-content"></p>
+        <p class="article-author"></p>
+        <button class="edit-article-btn">Edit</button>
+        <button class="delete-article-btn">Delete</button>
+    </article>
+</template>
+
+<template id="comment-template">
+    <div class="comment">
+        <p class="comment-content"></p>
+        <p class="comment-author"></p>
+        <button class="delete-comment-btn">Delete</button>
+    </div>
+</template>
+
+<template id="user-template">
+    <div class="user">
+        <p class="user-name"></p>
+        <button class="mute-user-btn">Mute</button>
+    </div>
+</template>
+
+<!-- Linking CSS and JS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/knowledge_repository.css') }}">
+<script defer src="{{ url_for('static', filename='js/knowledge_repository.js') }}"></script>
+{% endblock %}
