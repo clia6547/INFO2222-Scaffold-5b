@@ -133,6 +133,9 @@ def get_hmac_key():
     # Send the HMAC key securely
     return jsonify({"hmac_key": COMMON_HMAC_KEY})
 
-
+@app.route('/knowledge-repository')
+def knowledge_repository():
+    return render_template('knowledge_repository.jinja')
+    
 if __name__ == '__main__':
     socketio.run(app)
