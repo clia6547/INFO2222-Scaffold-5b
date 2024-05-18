@@ -96,6 +96,7 @@ def signup_user():
     if db.get_user(username) is None:
         db.insert_user(username, password, public_key, role)
         session['username'] = username  # Set up user session
+        session['role'] = role
         return jsonify({"success": True, "url": url_for('home', username=username), "hmac_key": COMMON_HMAC_KEY})
     else:
         return jsonify({"success": False, "error": "User already exists!"})
