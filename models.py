@@ -36,6 +36,7 @@ class User(Base):
     username = Column(String, primary_key=True)
     password = Column(String)
     public_key = Column(Text)  # New field to store the public key
+    role = Column(String)
     
     # Define a relationship with Friendship table
     friends = relationship("Friendship", foreign_keys=[Friendship.user1], back_populates="user1_rel")

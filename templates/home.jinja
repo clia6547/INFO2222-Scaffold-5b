@@ -44,7 +44,9 @@
 <!--Navbar, you'll see the username here-->
 <nav style="border-bottom: 1px solid black;">
     <ol style="float: right">
-        <li style="display:inline-block">Username:  {{ username }} </li>
+        <li style="display: block;">
+            <a href="/profile/{{ username }}">Username: {{ username }}</a>
+        </li>
     </ol>
 </nav>
 

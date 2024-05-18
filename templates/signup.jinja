@@ -9,6 +9,13 @@ Sign up page, pretty much the same as login.
     <input id="username"/>
     <p>Password</p>
     <input id="password" type="password"/>
+    <p>Role</p>
+    <select id="role" name="role" required>
+        <option value="Student">Student</option>
+        <option value="Academic Staff">Academic Staff</option>
+        <option value="Administrative Staff">Administrative Staff</option>
+        <option value="Admin User">Admin User</option>
+    </select>
     <button onclick="signup()">Sign up</button>
 
     <script>
@@ -58,6 +65,7 @@ Sign up page, pretty much the same as login.
         async function signup() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
             const keyPair = await generateKeyPair();
             const publicKey = await window.crypto.subtle.exportKey("spki", keyPair.publicKey);
             const publicKeyPem = spkiToPem(publicKey);
@@ -72,7 +80,8 @@ Sign up page, pretty much the same as login.
                 body: JSON.stringify({
                     username: username,
                     password: password,
-                    publicKey: publicKeyPem
+                    publicKey: publicKeyPem,
+                    role: role
                 })
             })
             .then(response => {

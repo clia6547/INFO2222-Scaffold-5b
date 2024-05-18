@@ -66,6 +66,7 @@ def login_user():
     # Reset the session for each new login
     session.clear()
     session['username'] = username  # Correctly setting the username in the session
+    session['role'] = user.role
     # return jsonify({"success": True, "url": url_for('home', username=username)})
 
     return url_for('home', username=request.json.get("username"))
@@ -87,12 +88,13 @@ def signup_user():
     username = request.json.get("username")
     password = request.json.get("password")
     public_key = request.json.get("publicKey")
+    role = request.json.get("role")
     if public_key is None:
         print("Public key is missing from the data.")
     # print(f"Received public key for {username}: {public_key}")  # Debug log
 
     if db.get_user(username) is None:
-        db.insert_user(username, password, public_key)
+        db.insert_user(username, password, public_key, role)
         session['username'] = username  # Set up user session
         return jsonify({"success": True, "url": url_for('home', username=username), "hmac_key": COMMON_HMAC_KEY})
     else:
@@ -113,7 +115,8 @@ def home():
     if 'username' not in session:
         return redirect(url_for('login'))  # Redirect to login if the user is not in session
     username = session['username']
-    return render_template("home.jinja", username=username)
+    role = session['role']
+    return render_template("home.jinja", username=username, role=role)
 
 @app.route("/api/get_public_key/<username>", methods=['GET'])
 def get_public_key(username):
@@ -136,6 +139,13 @@ def get_hmac_key():
 @app.route('/knowledge-repository')
 def knowledge_repository():
     return render_template('knowledge_repository.jinja')
-    
+
+@app.route("/profile/<username>")
+def profile(username):
+    user = db.get_user(username)
+    if user is None:
+        return render_template('404.jinja'), 404
+    return render_template("profile.jinja", user=user)
+
 if __name__ == '__main__':
     socketio.run(app)
